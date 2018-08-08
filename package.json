@@ -1,0 +1,36 @@
+{
+  "name": "boilerplates",
+  "version": "1.0.0",
+  "description": "Gotta start somewhere...",
+  "main": "index.js",
+  "scripts": {
+    "prestart": "npm run clean && concurrently \"npm run build:html\" \"npm run build:css\" \"npm run build:js\"",
+    "clean": "rimraf dist",
+    "build:html": "mkdirp dist && cp src/index.html dist/",
+    "build:css": "mkdirp dist/css && npm run sass-to-css",
+    "sass-to-css": "node-sass --quiet --output-style compressed src/scss/index.scss dist/css/styles.min.css",
+    "build:js": "mkdirp dist/js && npm run bundle-js",
+    "bundle-js": "browserify --entry src/js/index.js | uglifyjs --mangle --compress > dist/js/bundle.min.js",
+    "start": "npm run dev-server",
+    "dev-server": "light-server --quiet --serve dist --port 1337 --open --watchexp \"src/** # npm run prestart # reload\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Jase-B/boilerplates.git"
+  },
+  "author": "Jase Balderrama",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Jase-B/boilerplates/issues"
+  },
+  "homepage": "https://github.com/Jase-B/boilerplates#readme",
+  "devDependencies": {
+    "browserify": "^16.2.2",
+    "concurrently": "^3.6.1",
+    "light-server": "^2.5.1",
+    "mkdirp": "^0.5.1",
+    "node-sass": "^4.9.2",
+    "rimraf": "^2.6.2",
+    "uglify-es": "^3.3.9"
+  }
+}
