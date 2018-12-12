@@ -7,8 +7,8 @@
     "start": "npm run dev-server",
     "prestart": "npm run clean && npm run html && concurrently \"npm run css\" \"npm run js\"",
     "clean": "rimraf dist",
-    "html": "mkdirp dist && npm run html:copy",
-    "html:copy": "cp src/index.html dist/",
+    "html": "mkdirp dist && npm run html:minify",
+    "html:minify": "html-minifier --remove-comments --remove-attribute-quotes --remove-empty-attributes --remove-tag-whitespace src/index.html --output dist/index.html",
     "css": "mkdirp dist/css && npm run css:from-sass",
     "css:from-sass": "node-sass --quiet --output-style compressed src/scss/index.scss dist/css/styles.min.css",
     "js": "mkdirp dist/js && npm run js:bundle",
@@ -28,9 +28,10 @@
   "devDependencies": {
     "browserify": "^16.2.3",
     "concurrently": "^3.6.1",
+    "html-minifier": "^3.5.21",
     "light-server": "^2.6.0",
     "mkdirp": "^0.5.1",
-    "node-sass": "^4.10.0",
+    "node-sass": "^4.11.0",
     "rimraf": "^2.6.2",
     "uglify-es": "^3.3.9",
     "vueify": "^9.4.1"
