@@ -1,32 +1,30 @@
 {
-  "name": "boilerplates",
-  "version": "1.0.0",
-  "description": "Gotta start somewhere...",
-  "main": "server.js",
-  "scripts": {
-    "start": "npm run dev-server",
-    "prestart": "npm run clean && npm run html && concurrently \"npm run css\" \"npm run js\"",
-    "clean": "rimraf dist",
-    "html": "mkdirp dist && npm run html:minify",
-    "html:minify": "html-minifier --remove-comments --remove-attribute-quotes --remove-empty-attributes --remove-tag-whitespace src/index.html --output dist/index.html",
-    "css": "mkdirp dist/css && npm run css:from-sass",
-    "css:from-sass": "node-sass --quiet --output-style compressed src/scss/index.scss dist/css/styles.min.css",
-    "js": "mkdirp dist/js && npm run js:bundle",
-    "js:bundle": "browserify --transform [ babelify --presets [ @babel/preset-env @babel/preset-react ] ] --entry src/js/index.js | uglifyjs --mangle --compress > dist/js/bundle.min.js",
-    "dev-server": "light-server --quiet --serve dist --port 1337 --open --watchexp \"src/** # npm run prestart # reload\""
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Jase-B/boilerplates.git"
-  },
   "author": "Jase Balderrama",
-  "license": "ISC",
+  "babel": {
+    "plugins": [
+      "@babel/plugin-proposal-optional-chaining"
+    ],
+    "presets": [
+      "@babel/preset-env",
+      "@babel/preset-react"
+    ]
+  },
   "bugs": {
     "url": "https://github.com/Jase-B/boilerplates/issues"
   },
-  "homepage": "https://github.com/Jase-B/boilerplates#readme",
+  "config": {
+    "html_minifier_opts": "--remove-comments --remove-attribute-quotes --remove-empty-attributes --remove-tag-whitespace",
+    "port": "1337"
+  },
+  "description": "Gotta start somewhere...",
+  "dependencies": {
+    "express": "^4.17.1",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6"
+  },
   "devDependencies": {
     "@babel/core": "^7.4.5",
+    "@babel/plugin-proposal-optional-chaining": "^7.2.0",
     "@babel/preset-env": "^7.4.5",
     "@babel/preset-react": "^7.0.0",
     "babelify": "^10.0.0",
@@ -39,9 +37,24 @@
     "rimraf": "^2.6.3",
     "uglify-es": "^3.3.9"
   },
-  "dependencies": {
-    "express": "^4.17.1",
-    "react": "^16.8.6",
-    "react-dom": "^16.8.6"
-  }
+  "homepage": "https://github.com/Jase-B/boilerplates#readme",
+  "license": "ISC",
+  "main": "server.js",
+  "name": "boilerplates",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Jase-B/boilerplates.git"
+  },
+  "scripts": {
+    "start": "npm run dev-server",
+    "prestart": "npm run clean && npm run html:minify && concurrently \"npm run css\" \"npm run js\"",
+    "clean": "rimraf dist && mkdirp dist",
+    "html:minify": "html-minifier $npm_package_config_html_minifier_opts src/index.html --output dist/index.html",
+    "css": "mkdirp dist/css && npm run css:from-sass",
+    "css:from-sass": "node-sass --quiet --output-style compressed src/scss/index.scss dist/css/styles.min.css",
+    "js": "mkdirp dist/js && npm run js:bundle",
+    "js:bundle": "browserify --transform babelify --entry src/js/index.js | uglifyjs --mangle --compress > dist/js/bundle.min.js",
+    "dev-server": "light-server --quiet --serve dist --port $npm_package_config_port --open --watchexp \"src/** # npm run prestart # reload\""
+  },
+  "version": "1.0.0"
 }
