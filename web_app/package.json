@@ -29,17 +29,17 @@
     "@babel/preset-react": "^7.0.0",
     "babelify": "^10.0.0",
     "browserify": "^16.2.3",
-    "concurrently": "^4.1.0",
     "html-minifier": "^4.0.0",
     "light-server": "^2.6.2",
     "mkdirp": "^0.5.1",
     "node-sass": "^4.12.0",
+    "npm-run-all": "^4.1.5",
     "rimraf": "^2.6.3",
     "uglify-es": "^3.3.9"
   },
   "homepage": "https://github.com/Jase-B/boilerplates#readme",
   "license": "ISC",
-  "main": "server.js",
+  "main": "app.js",
   "name": "boilerplates",
   "repository": {
     "type": "git",
@@ -47,13 +47,11 @@
   },
   "scripts": {
     "start": "npm run dev-server",
-    "prestart": "npm run clean && npm run html:minify && concurrently \"npm run css\" \"npm run js\"",
+    "prestart": "npm-run-all clean --parallel build:*",
     "clean": "rimraf dist && mkdirp dist",
-    "html:minify": "html-minifier $npm_package_config_html_minifier_opts src/index.html --output dist/index.html",
-    "css": "mkdirp dist/css && npm run css:from-sass",
-    "css:from-sass": "node-sass --quiet --output-style compressed src/scss/index.scss dist/css/styles.min.css",
-    "js": "mkdirp dist/js && npm run js:bundle",
-    "js:bundle": "browserify --transform babelify --entry src/js/index.js | uglifyjs --mangle --compress > dist/js/bundle.min.js",
+    "build:html": "html-minifier $npm_package_config_html_minifier_opts src/index.html --output dist/index.html",
+    "build:css": "mkdirp dist/css && node-sass --quiet --output-style compressed src/scss/index.scss dist/css/styles.min.css",
+    "build:js": "mkdirp dist/js && browserify --transform babelify --entry src/js/index.js | uglifyjs --mangle --compress > dist/js/bundle.min.js",
     "dev-server": "light-server --quiet --serve dist --port $npm_package_config_port --open --watchexp \"src/** # npm run prestart # reload\""
   },
   "version": "1.0.0"
