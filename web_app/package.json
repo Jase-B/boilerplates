@@ -6,7 +6,8 @@
     ],
     "presets": [
       "@babel/preset-env",
-      "@babel/preset-react"
+      "@babel/preset-react",
+      "minify"
     ]
   },
   "bugs": {
@@ -23,19 +24,20 @@
     "react-dom": "^16.8.6"
   },
   "devDependencies": {
-    "@babel/core": "^7.4.5",
+    "@babel/core": "^7.5.5",
     "@babel/plugin-proposal-optional-chaining": "^7.2.0",
-    "@babel/preset-env": "^7.4.5",
+    "@babel/preset-env": "^7.5.5",
     "@babel/preset-react": "^7.0.0",
-    "babelify": "^10.0.0",
-    "browserify": "^16.2.3",
+    "babel-preset-minify": "^0.5.0",
     "html-minifier": "^4.0.0",
-    "light-server": "^2.6.2",
+    "light-server": "^2.6.3",
     "mkdirp": "^0.5.1",
     "node-sass": "^4.12.0",
     "npm-run-all": "^4.1.5",
     "rimraf": "^2.6.3",
-    "uglify-es": "^3.3.9"
+    "rollup": "^1.19.3",
+    "rollup-plugin-babel": "^4.3.3",
+    "rollup-plugin-node-resolve": "^5.2.0"
   },
   "homepage": "https://github.com/Jase-B/boilerplates#readme",
   "license": "ISC",
@@ -48,10 +50,10 @@
   "scripts": {
     "start": "npm run dev-server",
     "prestart": "npm-run-all clean --parallel build:*",
-    "clean": "rimraf dist && mkdirp dist",
+    "clean": "rimraf dist && mkdirp dist/{css,js}",
     "build:html": "html-minifier $npm_package_config_html_minifier_opts src/index.html --output dist/index.html",
-    "build:css": "mkdirp dist/css && node-sass --quiet --output-style compressed src/scss/index.scss dist/css/styles.min.css",
-    "build:js": "mkdirp dist/js && browserify --transform babelify --entry src/js/index.js | uglifyjs --mangle --compress > dist/js/bundle.min.js",
+    "build:css": "node-sass --quiet --output-style compressed src/scss/index.scss dist/css/styles.min.css",
+    "build:js": "rollup --compact --config --watch",
     "dev-server": "light-server --quiet --serve dist --port $npm_package_config_port --open --watchexp \"src/** # npm run prestart # reload\""
   },
   "version": "1.0.0"
