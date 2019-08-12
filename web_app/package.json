@@ -27,7 +27,6 @@
     "babel-preset-minify": "^0.5.0",
     "html-minifier": "^4.0.0",
     "light-server": "^2.6.3",
-    "mkdirp": "^0.5.1",
     "node-sass": "^4.12.0",
     "npm-run-all": "^4.1.5",
     "rimraf": "^2.6.3",
@@ -46,7 +45,7 @@
   "scripts": {
     "start": "npm run dev-server",
     "prestart": "npm-run-all clean --parallel build:*",
-    "clean": "rimraf dist && mkdirp dist/{css,js}",
+    "clean": "rimraf dist/{*.html,css/*.css,js/*.js}",
     "build:html": "html-minifier $npm_package_config_html_minifier_opts src/index.html --output dist/index.html",
     "build:css": "node-sass --quiet --output-style compressed src/scss/index.scss dist/css/styles.min.css",
     "build:js": "rollup --compact --config --watch",
