@@ -37,7 +37,7 @@
   },
   "homepage": "https://github.com/Jase-B/boilerplates#readme",
   "license": "ISC",
-  "main": "app.js",
+  "main": "server.js",
   "name": "boilerplates",
   "repository": {
     "type": "git",
